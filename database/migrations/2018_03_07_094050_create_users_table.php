@@ -14,10 +14,14 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->integer('id')->unsigned()->comment('GitHub user id');
+            $table->string('login', 100)->comment('GitHub login');
+            $table->string('name', 100)->nullable()->default(null)->comment('GitHub username');
+            $table->string('email', 100)->nullable()->default(null)->comment('GitHub public user email');
+            $table->string('avatar')->nullable()->default(null)->comment('GitHub USER avatar');
+            $table->string('token')->comment('GitHub user token.');
+
+            $table->primary('id');
             $table->rememberToken();
             $table->timestamps();
         });
