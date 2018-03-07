@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 
+use Auth;
 use Socialite;
 use App\User as UserModel;
 
@@ -17,7 +18,8 @@ class GitHubController extends Controller
      */
     public function redirect()
     {
-        return Socialite::driver('github')->redirect();
+        return Socialite::driver('github')
+            ->redirect();
     }
 
     /**
@@ -38,5 +40,9 @@ class GitHubController extends Controller
         $localUser->avatar = $user->avatar;
         $localUser->token = $user->token;
         $localUser->save();
+
+        Auth::login($localUser);
+
+        return redirect('/');
     }
 }
